@@ -47,7 +47,7 @@ System informacyjny realizuje optymalizację portfela inwestycyjnego przy użyci
 
 ### Ograniczenia systemu
 
-1. **Ograniczenia danych** - system bazuje na historycznych danych finansowych, które nie gwarantują przyszłych wyników. Optymalizacja przeprowadzana jest na danych historycznych, co może prowadzić do nadmiernego dopasowania do przeszłych wzorców rynkowych.
+1. **Ograniczenia danych** - system opiera się na tym, co już się wydarzyło na rynku, więc może nie sprawdzić się w nowych warunkach rynkowych.
 
 2. **Ograniczenia obliczeniowe** - algorytm genetyczny jest metodą heurystyczną, która nie gwarantuje znalezienia globalnego optimum. Jakość uzyskanych rozwiązań zależy od parametrów algorytmu (wielkość populacji, liczba pokoleń, współczynnik mutacji).
 
@@ -57,7 +57,7 @@ System informacyjny realizuje optymalizację portfela inwestycyjnego przy użyci
 
 ### Charakterystyka algorytmu ewolucyjnego/genetycznego
 
-Algorytm genetyczny (AG) to metaheurystyka inspirowana procesem ewolucji biologicznej, wykorzystująca mechanizmy takie jak dziedziczenie, mutacja, selekcja i krzyżowanie. W kontekście optymalizacji portfela inwestycyjnego, algorytm genetyczny jest używany do znalezienia optymalnych wag aktywów w portfelu, maksymalizujących określoną funkcję celu.
+Algorytm genetyczny inspirowany procesem ewolucji biologicznej, wykorzystuje mechanizmy takie jak dziedziczenie, mutacja, selekcja i krzyżowanie. W kontekście optymalizacji portfela inwestycyjnego, algorytm genetyczny jest używany do znalezienia optymalnych wag aktywów w portfelu, maksymalizujących określoną funkcję celu.
 
 Główne komponenty zaimplementowanego algorytmu genetycznego:
 
@@ -83,7 +83,7 @@ Główne komponenty zaimplementowanego algorytmu genetycznego:
 
 5. **Krzyżowanie** - Proces łączenia cech dwóch rodziców (portfeli) w celu utworzenia nowego potomstwa. Wykorzystywane jest krzyżowanie jednopunktowe, gdzie wybierany jest losowy punkt podziału, a nowy portfel tworzy się przez połączenie fragmentów wektorów wag od dwóch rodziców.
 
-6. **Mutacja** - Wprowadzanie małych losowych zmian w wagach portfela w celu zachowania różnorodności genetycznej. Implementacja wykorzystuje mutację przez dodanie szumu gaussowskiego:
+6. **Mutacja** - Wprowadzanie małych losowych zmian w wagach portfela w celu zachowania różnorodności genetycznej. Implementacja wykorzystuje mutację przez dodanie szumu Gaussa:
 
    ```python
    mutated = weights + np.random.normal(0, mutation_rate, len(weights))
@@ -105,7 +105,7 @@ Do oceny jakości optymalizacji portfela wykorzystano następujące miary:
 
 3. **Wskaźnik zysku** - Stosunek sumy zysków do sumy strat. Wyższa wartość oznacza lepszą efektywność portfela.
 
-4. **Oczekiwana wartość** - Miara uwzględniająca częstotliwość i wielkość zysków i strat, obliczana jako (win*rate * avg*win) - (loss_rate * avg_loss). Wyższa wartość jest preferowana.
+4. **Oczekiwana wartość** - Miara uwzględniająca częstotliwość i wielkość zysków i strat, obliczana jako (win_rate \* avg_win) - (loss_rate \* avg_loss). Wyższa wartość jest preferowana.
 
 5. **Maksymalne obsunięcie kapitału** - Maksymalny procentowy spadek wartości portfela od szczytu do dołka. Mniejsza wartość bezwzględna jest preferowana.
 
@@ -120,7 +120,7 @@ Kod projektu jest zorganizowany w formie notatnika Jupyter i składa się z nast
 1. **Pobieranie i przetwarzanie danych**
 
    ```python
-   # Lista 30 aktyw giełdowych
+   # Lista 30 aktywów giełdowych
    tickers = [
        "AAPL", "MSFT", "GOOG", "META", "AMZN",
        "NVDA", "TSLA", "NFLX", "AMD", "INTC",
@@ -427,7 +427,7 @@ Kod projektu jest zorganizowany w formie notatnika Jupyter i składa się z nast
 
    - **Krzyżowanie jednopunktowe**: Wybierany jest losowy punkt podziału, a nowy portfel tworzy się przez połączenie fragmentów wektorów wag od dwóch rodziców. Po krzyżowaniu wagi są normalizowane, aby suma wynosiła 1.
 
-   - **Mutacja z szumem gaussowskim**: Do wag dodawany jest losowy szum o rozkładzie normalnym, a następnie wagi są obcinane do wartości nieujemnych i normalizowane. Siła mutacji jest kontrolowana przez parametr mutation_rate.
+   - **Mutacja z szumem Gaussa**: Do wag dodawany jest losowy szum o rozkładzie normalnym, a następnie wagi są obcinane do wartości nieujemnych i normalizowane. Siła mutacji jest kontrolowana przez parametr mutation_rate.
 
    - **Selekcja elitarna**: Wybierane są najlepsze osobniki na podstawie wartości funkcji fitness. Liczba wybranych osobników jest określona przez parametr elite_size.
 
